@@ -1,6 +1,6 @@
-# SauceDemo Automation Framework
+# clean-test-dotnet
 
-This project is an automation testing framework for the SauceDemo website, implementing clean architecture principles and utilizing SpecFlow for behavior-driven development (BDD).
+This project is an automation testing framework implementing clean architecture principles and utilizing SpecFlow for behavior-driven development (BDD).
 
 ## Table of Contents
 
@@ -37,7 +37,7 @@ The solution is organized into the following projects:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/SauceDemo-Automation-Framework.git
+   git clone git@github.com:mitsram/clean-test-dotnet.git
    ```
 
 2. Install the required .NET SDK (version 8.0 or later).
