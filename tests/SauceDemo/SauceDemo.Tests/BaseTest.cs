@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Microsoft.Playwright;
 using System.Diagnostics;
+using TechTalk.SpecFlow;
 
 namespace SauceDemo.Tests;
 
@@ -19,6 +20,7 @@ public class PlaywrightReportAttribute : Attribute
     }
 }
 
+[Binding]
 [TestFixture]
 public class BaseTest
 {
@@ -51,6 +53,7 @@ public class BaseTest
     private IBrowserContext? _context;
 
     [SetUp]
+    [BeforeScenario]
     public virtual async Task Setup()
     {
         string projectDirectory = TestContext.CurrentContext.TestDirectory;
@@ -58,7 +61,7 @@ public class BaseTest
 
         // Driver = await InitializeDriverStrategy();
         await InitializeDriver();
-    }
+    }   
 
     // private async Task<IWebDriverStrategy> InitializeDriverStrategy()
     private async Task InitializeDriver()
@@ -86,6 +89,7 @@ public class BaseTest
     }
 
     [TearDown]
+    [AfterScenario]
     public virtual async Task TearDown()
     {
         try
