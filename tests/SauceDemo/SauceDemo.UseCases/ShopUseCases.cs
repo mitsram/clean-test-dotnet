@@ -1,0 +1,44 @@
+using SauceDemo.Infrastructure.Services;
+
+namespace SauceDemo.UseCases;
+
+public class ShopUseCases
+{
+    private readonly IShopService _shopService;
+
+    public ShopUseCases(IShopService shopService)
+    {
+        _shopService = shopService;
+    }
+
+    public void AddProductToCart(string productName)
+    {
+        _shopService.AddProductToCart(productName);
+    }
+
+    public bool IsProductInCart(string productName)
+    {
+        return _shopService.IsProductInCart(productName);
+    }
+
+    public int GetCartItemCount()
+    {
+        return _shopService.GetCartItemCount();
+    }
+
+    public void RemoveProductFromCart(string productName)
+    {
+        _shopService.RemoveProductFromCart(productName);
+    }
+
+    public void SortProducts(string sortOption)
+    {
+        _shopService.SortProducts(sortOption);
+    }
+
+    public bool AreProductsSortedCorrectly(string sortOption)
+    {
+        return _shopService.AreProductsSortedCorrectly(sortOption);
+    }
+}
+
