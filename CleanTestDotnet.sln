@@ -7,15 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{57CA8CD4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SauceDemo", "SauceDemo", "{BCFB2925-7070-4DDC-A34E-E69B5AA36F0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Domain", "src\SauceDemo\SauceDemo.Domain\SauceDemo.Domain.csproj", "{0061B70B-455F-41D2-94C0-D76873FA3FE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Domain", "SauceDemo\src\SauceDemo.Domain\SauceDemo.Domain.csproj", "{0061B70B-455F-41D2-94C0-D76873FA3FE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Infrastructure", "src\SauceDemo\SauceDemo.Infrastructure\SauceDemo.Infrastructure.csproj", "{AB2839FC-7F1B-424A-AB8E-90CE51B221E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Infrastructure", "SauceDemo\src\SauceDemo.Infrastructure\SauceDemo.Infrastructure.csproj", "{AB2839FC-7F1B-424A-AB8E-90CE51B221E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Tests", "tests\SauceDemo\SauceDemo.Tests\SauceDemo.Tests.csproj", "{47BB0AB5-10C5-4959-B656-9BD7B7757AB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Tests", "SauceDemo\tests\SauceDemo.Tests\SauceDemo.Tests.csproj", "{47BB0AB5-10C5-4959-B656-9BD7B7757AB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.UseCases", "src\SauceDemo\SauceDemo.UseCases\SauceDemo.UseCases.csproj", "{D152C8C2-5125-49DB-8B46-EE606CE38530}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.UseCases", "SauceDemo\src\SauceDemo.UseCases\SauceDemo.UseCases.csproj", "{D152C8C2-5125-49DB-8B46-EE606CE38530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Specflow", "tests\SauceDemo\SauceDemo.Specflow\SauceDemo.Specflow.csproj", "{B6333AB6-D5BC-498E-BC7C-BB007C7CBAFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SauceDemo.Specflow", "SauceDemo\tests\SauceDemo.Specflow\SauceDemo.Specflow.csproj", "{B6333AB6-D5BC-498E-BC7C-BB007C7CBAFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
