@@ -171,9 +171,7 @@ public virtual async Task TearDown()
         Console.WriteLine($"Error during driver disposal: {ex.Message}");
     }
 
-    LoginService?.Dispose();
-    ShopService?.Dispose();
-    CheckoutService?.Dispose();
+    // rest of the class ...
 }
 ```
 
