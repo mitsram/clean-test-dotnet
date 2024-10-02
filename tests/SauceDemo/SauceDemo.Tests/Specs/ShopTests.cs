@@ -1,27 +1,24 @@
 using SauceDemo.UseCases;
 using SauceDemo.Domain.Entities;
 using SauceDemo.Infrastructure.Services;
-using NUnit.Framework;
 
 namespace SauceDemo.Tests;
 
 public class ShopTests : BaseTest
 {
-    private ShopUseCases _shopUseCases;
-    private LoginUseCases _loginUseCases;
+    private ShopUseCases shop;
+    private AuthenticationUseCases authentication;
 
     [SetUp]
     public override async Task Setup()
     {
         await base.Setup();
-        var shopService = new ShopService(Driver); // Implement this in your infrastructure layer
-        var loginService = new LoginService(Driver); // Reuse the LoginService we created earlier
-        _shopUseCases = new ShopUseCases(shopService);
-        _loginUseCases = new LoginUseCases(loginService);
+        shop = new ShopUseCases(new ShopService(driver!));
+        authentication = new AuthenticationUseCases(new AuthenticationService(driver!));
 
         // Login before each test
-        _loginUseCases.GoToLoginPage();
-        _loginUseCases.AttemptLogin(new User { Username = "standard_user", Password = "secret_sauce" });
+        authentication.GoToLoginPage();
+        authentication.AttemptLogin(new User { Username = "standard_user", Password = "secret_sauce" });
     }
 
     [Test]
@@ -31,11 +28,11 @@ public class ShopTests : BaseTest
         var product = new Product { Name = "Sauce Labs Backpack" };
 
         // Act 
-        _shopUseCases.AddProductToCart(product.Name);
+        shop.AddProductToCart(product.Name);
 
         // Assert
-        Assert.IsTrue(_shopUseCases.IsProductInCart(product.Name));
-        Assert.AreEqual(1, _shopUseCases.GetCartItemCount());
+        Assert.IsTrue(shop.IsProductInCart(product.Name));
+        Assert.That(shop.GetCartItemCount(), Is.EqualTo(1));
     }
 
     [Test]
@@ -43,14 +40,14 @@ public class ShopTests : BaseTest
     {
         // Arrange
         var product = new Product { Name = "Sauce Labs Bike Light" };
-        _shopUseCases.AddProductToCart(product.Name);
+        shop.AddProductToCart(product.Name);
 
         // Act
-        _shopUseCases.RemoveProductFromCart(product.Name);
+        shop.RemoveProductFromCart(product.Name);
 
         // Assert
-        Assert.IsFalse(_shopUseCases.IsProductInCart(product.Name));
-        Assert.AreEqual(0, _shopUseCases.GetCartItemCount());
+        Assert.IsFalse(shop.IsProductInCart(product.Name));
+        Assert.That(shop.GetCartItemCount(), Is.EqualTo(0));
     }
 
     [Test]
@@ -60,10 +57,10 @@ public class ShopTests : BaseTest
         string sortOption = "Price (high to low)";
 
         // Act
-        _shopUseCases.SortProducts(sortOption);
+        shop.SortProducts(sortOption);
 
         // Assert
-        Assert.IsTrue(_shopUseCases.AreProductsSortedCorrectly(sortOption));
+        Assert.IsTrue(shop.AreProductsSortedCorrectly(sortOption));
     }
 }
 

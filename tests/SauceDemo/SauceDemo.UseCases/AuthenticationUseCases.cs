@@ -3,11 +3,11 @@ using SauceDemo.Infrastructure.Services;
 
 namespace SauceDemo.UseCases;
 
-public class LoginUseCases
+public class AuthenticationUseCases
 {
-    private readonly ILoginService _loginService;
+    private readonly IAuthenticationService _loginService;
 
-    public LoginUseCases(ILoginService loginService)
+    public AuthenticationUseCases(IAuthenticationService loginService)
     {
         _loginService = loginService;
     }

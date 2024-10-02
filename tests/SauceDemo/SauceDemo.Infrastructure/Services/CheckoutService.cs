@@ -6,50 +6,50 @@ namespace SauceDemo.Infrastructure.Services;
 
 public class CheckoutService : ICheckoutService, IDisposable
 {
-    private readonly IWebDriverStrategy _driverStrategy;
+    private readonly IWebDriverStrategy driver;
     private bool _disposed = false;
 
     public CheckoutService(IWebDriverStrategy driverStrategy)
     {
-        _driverStrategy = driverStrategy ?? throw new ArgumentNullException(nameof(driverStrategy));
+        driver = driverStrategy ?? throw new ArgumentNullException(nameof(driverStrategy));
     }
 
     public void NavigateToCart()
     {
-        _driverStrategy.FindElementByClassName("shopping_cart_link").Click();
+        driver.FindElementByClassName("shopping_cart_link").Click();
     }
 
     public void ClickCheckout()
     {
-        _driverStrategy.FindElementById("checkout").Click();
+        driver.FindElementById("checkout").Click();
     }
 
     public void EnterCustomerInfo(CustomerInfo customerInfo)
     {
-        _driverStrategy.FindElementById("first-name").SendKeys(customerInfo.FirstName);
-        _driverStrategy.FindElementById("last-name").SendKeys(customerInfo.LastName);
-        _driverStrategy.FindElementById("postal-code").SendKeys(customerInfo.ZipCode);
+        driver.FindElementById("first-name").SendKeys(customerInfo.FirstName);
+        driver.FindElementById("last-name").SendKeys(customerInfo.LastName);
+        driver.FindElementById("postal-code").SendKeys(customerInfo.ZipCode);
     }
 
     public void ContinueToOverview()
     {
-        _driverStrategy.FindElementById("continue").Click();
+        driver.FindElementById("continue").Click();
     }
 
     public bool FinishPurchase()
     {
-        _driverStrategy.FindElementById("finish").Click();
+        driver.FindElementById("finish").Click();
         return IsOnOrderCompletePage();
     }
 
     public bool IsOnOrderCompletePage()
     {
-        return _driverStrategy.GetCurrentUrl().Contains("/checkout-complete.html");
+        return driver.GetCurrentUrl().Contains("/checkout-complete.html");
     }
 
     public string GetConfirmationMessage()
     {
-        return _driverStrategy.FindElementByClassName("complete-header").Text;
+        return driver.FindElementByClassName("complete-header").Text;
     }
 
     public void Dispose()
@@ -65,7 +65,7 @@ public class CheckoutService : ICheckoutService, IDisposable
             if (disposing)
             {
                 // Dispose managed resources
-                _driverStrategy.Dispose();
+                driver.Dispose();
             }
 
             _disposed = true;

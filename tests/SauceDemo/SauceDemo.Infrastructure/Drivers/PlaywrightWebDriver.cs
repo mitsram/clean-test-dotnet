@@ -3,11 +3,11 @@ using StrategyElement = SauceDemo.Infrastructure.Drivers.IWebElement;
 
 namespace SauceDemo.Infrastructure.Drivers;
 
-public class PlaywrightWebDriverStrategy : IWebDriverStrategy
+public class PlaywrightWebDriver : IWebDriverStrategy
 {
     private readonly IPage _page;
 
-    public PlaywrightWebDriverStrategy(IPage page)
+    public PlaywrightWebDriver(IPage page)
     {
         _page = page;
     }

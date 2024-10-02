@@ -2,7 +2,7 @@ using System;
 
 namespace SauceDemo.Infrastructure.Services;
 
-public interface ILoginService : IDisposable
+public interface IAuthenticationService : IDisposable
 {
     void NavigateToLoginPage();
     bool Login(string username, string password);

@@ -1,22 +1,21 @@
 using SauceDemo.Domain.Entities;
 using SauceDemo.Infrastructure.Drivers;
-using System;
-using System.Linq;
+
 
 namespace SauceDemo.Infrastructure.Services;
 
-public class ShoppingService : ILoginService, IShopService, ICheckoutService, IDisposable
+public class ShoppingService : IAuthenticationService, IShopService, ICheckoutService, IDisposable
 {
-    private readonly IWebDriverStrategy _driverStrategy;
-    private readonly LoginService _loginService;
+    private readonly IWebDriverStrategy driver;
+    private readonly AuthenticationService _loginService;
     private readonly ShopService _shopService;
     private readonly CheckoutService _checkoutService;
     private bool _disposed = false;
 
     public ShoppingService(IWebDriverStrategy driverStrategy)
     {
-        _driverStrategy = driverStrategy ?? throw new ArgumentNullException(nameof(driverStrategy));
-        _loginService = new LoginService(driverStrategy);
+        driver = driverStrategy ?? throw new ArgumentNullException(nameof(driverStrategy));
+        _loginService = new AuthenticationService(driverStrategy);
         _shopService = new ShopService(driverStrategy);
         _checkoutService = new CheckoutService(driverStrategy);
     }
@@ -47,13 +46,13 @@ public class ShoppingService : ILoginService, IShopService, ICheckoutService, ID
     public bool IsProductAvailable(string productName, int quantity = 1)
     {
         // Navigate to the inventory page if not already there
-        if (!_driverStrategy.GetCurrentUrl().EndsWith("/inventory.html"))
+        if (!driver.GetCurrentUrl().EndsWith("/inventory.html"))
         {
-            _driverStrategy.NavigateToUrl("https://www.saucedemo.com/inventory.html");
+            driver.NavigateToUrl("https://www.saucedemo.com/inventory.html");
         }
 
         // Check if the product exists
-        var productElement = _driverStrategy.FindElementsByXPath($"//div[@class='inventory_item_name' and text()='{productName}']");
+        var productElement = driver.FindElementsByXPath($"//div[@class='inventory_item_name' and text()='{productName}']");
         if (!productElement.Any())
         {
             Console.WriteLine($"Product {productName} not found.");
@@ -61,7 +60,7 @@ public class ShoppingService : ILoginService, IShopService, ICheckoutService, ID
         }
 
         // Check if the product can be added to cart
-        var addToCartButton = _driverStrategy.FindElementsByXPath($"//div[@class='inventory_item_name' and text()='{productName}']/ancestor::div[@class='inventory_item']//button[contains(@class, 'btn_inventory')]");
+        var addToCartButton = driver.FindElementsByXPath($"//div[@class='inventory_item_name' and text()='{productName}']/ancestor::div[@class='inventory_item']//button[contains(@class, 'btn_inventory')]");
         if (!addToCartButton.Any() || addToCartButton.First().Text.ToLower().Contains("remove"))
         {
             Console.WriteLine($"Product {productName} is out of stock or already in cart.");
@@ -78,7 +77,7 @@ public class ShoppingService : ILoginService, IShopService, ICheckoutService, ID
         // Navigate to the cart page if not already there
         NavigateToCart();
 
-        var totalElement = _driverStrategy.FindElementByClassName("summary_total_label");
+        var totalElement = driver.FindElementByClassName("summary_total_label");
         string totalText = totalElement.Text.Replace("Total: $", "");
         return decimal.Parse(totalText, System.Globalization.CultureInfo.InvariantCulture);
     }
@@ -98,7 +97,7 @@ public class ShoppingService : ILoginService, IShopService, ICheckoutService, ID
                 _loginService.Dispose();
                 _shopService.Dispose();
                 _checkoutService.Dispose();
-                _driverStrategy.Dispose();
+                driver.Dispose();
             }
             _disposed = true;
         }

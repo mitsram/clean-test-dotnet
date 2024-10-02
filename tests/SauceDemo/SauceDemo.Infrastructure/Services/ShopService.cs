@@ -9,49 +9,49 @@ namespace SauceDemo.Infrastructure.Services;
 
 public class ShopService : IShopService, IDisposable
 {
-    private readonly IWebDriverStrategy _driverStrategy;
+    private readonly IWebDriverStrategy driver;
     private bool _disposed;
 
     public ShopService(IWebDriverStrategy driverStrategy)
     {
-        _driverStrategy = driverStrategy;
+        driver = driverStrategy;
     }
 
     public void AddProductToCart(string productName)
     {
-        var addButton = _driverStrategy.FindElementByXPath($"//div[text()='{productName}']/ancestor::div[@class='inventory_item']//button[contains(@id, 'add-to-cart')]");
+        var addButton = driver.FindElementByXPath($"//div[text()='{productName}']/ancestor::div[@class='inventory_item']//button[contains(@id, 'add-to-cart')]");
         addButton.Click();
     }
 
     public bool IsProductInCart(string productName)
     {
-        _driverStrategy.FindElementByClassName("shopping_cart_link").Click();
-        return _driverStrategy.FindElementsByXPath($"//div[@class='inventory_item_name' and text()='{productName}']").Any();
+        driver.FindElementByClassName("shopping_cart_link").Click();
+        return driver.FindElementsByXPath($"//div[@class='inventory_item_name' and text()='{productName}']").Any();
     }
 
     public int GetCartItemCount()
     {
-        var cartBadge = _driverStrategy.FindElementsByClassName("shopping_cart_badge");
+        var cartBadge = driver.FindElementsByClassName("shopping_cart_badge");
         return cartBadge.Any() ? int.Parse(cartBadge.First().Text) : 0;
     }
 
     public void RemoveProductFromCart(string productName)
     {
-        var removeButton = _driverStrategy.FindElementByXPath($"//div[text()='{productName}']/ancestor::div[@class='inventory_item']//button[contains(@id, 'remove')]");
+        var removeButton = driver.FindElementByXPath($"//div[text()='{productName}']/ancestor::div[@class='inventory_item']//button[contains(@id, 'remove')]");
         removeButton.Click();
     }
 
     public void SortProducts(string sortOption)
     {
-        var sortDropdown = _driverStrategy.FindElementByClassName("product_sort_container");
+        var sortDropdown = driver.FindElementByClassName("product_sort_container");
         sortDropdown.Click();
-        var option = _driverStrategy.FindElementByXPath($"//option[text()='{sortOption}']");
+        var option = driver.FindElementByXPath($"//option[text()='{sortOption}']");
         option.Click();
     }
 
     public bool AreProductsSortedCorrectly(string sortOption)
     {
-        var productPrices = _driverStrategy.FindElementsByClassName("inventory_item_price")
+        var productPrices = driver.FindElementsByClassName("inventory_item_price")
                                     .Select(e => decimal.Parse(e.Text.Replace("$", "")))
                                     .ToList();
 
@@ -79,7 +79,7 @@ public class ShopService : IShopService, IDisposable
         {
             if (disposing)
             {
-                _driverStrategy.Dispose();
+                driver.Dispose();
             }
             _disposed = true;
         }

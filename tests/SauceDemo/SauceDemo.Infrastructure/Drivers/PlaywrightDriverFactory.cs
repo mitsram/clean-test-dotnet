@@ -25,7 +25,7 @@ public class PlaywrightDriverFactory
         });
 
         var page = await context.NewPageAsync();
-        var strategy = new PlaywrightWebDriverStrategy(page);
-        return (playwright, browser, page, context, strategy);
+        var strategy = new PlaywrightWebDriver(page);
+        return (playwright, browser, page, context, (IWebDriverStrategy)strategy);
     }
 }

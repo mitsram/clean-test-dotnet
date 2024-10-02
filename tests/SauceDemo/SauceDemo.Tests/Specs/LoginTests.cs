@@ -1,46 +1,42 @@
 using SauceDemo.UseCases;
 using SauceDemo.Domain.Entities;
 using SauceDemo.Infrastructure.Services;
-using NUnit.Framework;
 
-namespace SauceDemo.Tests
+namespace SauceDemo.Tests;
+
+public class LoginTests : BaseTest
 {
-    public class LoginTests : BaseTest
+    private AuthenticationUseCases authentication;
+
+    [SetUp]
+    public override async Task Setup()
     {
-        private LoginUseCases _loginUseCases;
+        await base.Setup();        
+        authentication = new AuthenticationUseCases(new AuthenticationService(driver!));        
+    }
 
-        [SetUp]
-        public override async Task Setup()
+    [Test]
+    [TestCase("standard_user", "secret_sauce", true)]
+    [TestCase("locked_out_user", "secret_sauce", false)]
+    [TestCase("invalid_user", "invalid_password", false)]
+    public void Should_LoginSuccessfully_WhenCredentialsAreValid(string username, string password, bool expectedResult)
+    {
+        // Arrange
+        var user = new User { Username = username, Password = password };
+
+        // Act 
+        authentication.GoToLoginPage();
+        bool loginResult = authentication.AttemptLogin(user);
+
+        // Assert
+        Assert.That(loginResult, Is.EqualTo(expectedResult));
+        if (expectedResult)
         {
-            await base.Setup();
-            // var loginService = new LoginService(); // Implement this in your infrastructure layer
-            var loginService = new LoginService(Driver);
-            _loginUseCases = new LoginUseCases(loginService);
-            _loginUseCases.GoToLoginPage();
+            Assert.IsTrue(authentication.IsOnInventoryPage());
         }
-
-        [Test]
-        [TestCase("standard_user", "secret_sauce", true)]
-        [TestCase("locked_out_user", "secret_sauce", false)]
-        [TestCase("invalid_user", "invalid_password", false)]
-        public void Should_LoginSuccessfully_WhenCredentialsAreValid(string username, string password, bool expectedResult)
+        else
         {
-            // Arrange
-            var user = new User { Username = username, Password = password };
-
-            // Act 
-            bool loginResult = _loginUseCases.AttemptLogin(user);
-
-            // Assert
-            Assert.AreEqual(expectedResult, loginResult);
-            if (expectedResult)
-            {
-                Assert.IsTrue(_loginUseCases.IsOnInventoryPage());
-            }
-            else
-            {
-                Assert.IsTrue(_loginUseCases.HasLoginError());
-            }
+            Assert.IsTrue(authentication.HasLoginError());
         }
     }
 }

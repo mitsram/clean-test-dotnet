@@ -3,22 +3,22 @@ using System;
 
 namespace SauceDemo.Infrastructure.Services;
 
-public class LoginService : ILoginService, IDisposable
+public class AuthenticationService : IAuthenticationService, IDisposable
 {
-    private readonly IWebDriverStrategy _driverStrategy;
+    private readonly IWebDriverStrategy driver;
     private bool _disposed = false;
 
-    public LoginService(IWebDriverStrategy driverStrategy)
+    public AuthenticationService(IWebDriverStrategy driverStrategy)
     {
-        _driverStrategy = driverStrategy;
+        driver = driverStrategy;
     }
 
     public void NavigateToLoginPage()
     {
-        _driverStrategy.NavigateToUrl("https://www.saucedemo.com/");
+        driver.NavigateToUrl("https://www.saucedemo.com/");
         
         // Optionally, we can add a check to ensure the page has loaded
-        var usernameField = _driverStrategy.FindElementById("user-name");
+        var usernameField = driver.FindElementById("user-name");
         if (usernameField == null)
         {
             throw new Exception("Login page did not load properly");
@@ -27,9 +27,9 @@ public class LoginService : ILoginService, IDisposable
 
     public bool Login(string username, string password)
     {
-        var usernameField = _driverStrategy.FindElementById("user-name");
-        var passwordField = _driverStrategy.FindElementById("password");
-        var loginButton = _driverStrategy.FindElementById("login-button");
+        var usernameField = driver.FindElementById("user-name");
+        var passwordField = driver.FindElementById("password");
+        var loginButton = driver.FindElementById("login-button");
 
         usernameField.SendKeys(username);
         passwordField.SendKeys(password);
@@ -40,12 +40,12 @@ public class LoginService : ILoginService, IDisposable
 
     public bool IsOnInventoryPage()
     {
-        return _driverStrategy.GetCurrentUrl().EndsWith("/inventory.html");
+        return driver.GetCurrentUrl().EndsWith("/inventory.html");
     }
 
     public bool HasLoginError()
     {
-        var errorElement = _driverStrategy.FindElementByClassName("error-message-container");
+        var errorElement = driver.FindElementByClassName("error-message-container");
         return !string.IsNullOrEmpty(errorElement.Text);
     }
 
@@ -67,7 +67,7 @@ public class LoginService : ILoginService, IDisposable
         }
     }
 
-    ~LoginService()
+    ~AuthenticationService()
     {
         Dispose(false);
     }
