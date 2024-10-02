@@ -16,6 +16,6 @@
     <PackageReference Include="SpecFlow" Version="3.9.74"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SauceDemo.UseCases\SauceDemo.UseCases.csproj"/>
+    <ProjectReference Include="..\..\..\src\SauceDemo\SauceDemo.UseCases\SauceDemo.UseCases.csproj"/>
   </ItemGroup>
 </Project>
