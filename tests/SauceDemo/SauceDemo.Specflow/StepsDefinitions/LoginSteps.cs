@@ -7,7 +7,7 @@ using SauceDemo.Infrastructure.Services;
 namespace SauceDemo.Tests.StepDefinitions
 {
     [Binding]
-    public class LoginStepDefinitions : BaseTest
+    public class LoginSteps : BaseTest
     {
         private AuthenticationUseCases authentication;
         private bool loginResult;
