@@ -63,8 +63,8 @@ dotnet test
 To run specific test projects:
 
 ```
-dotnet test tests/SauceDemo/SauceDemo.Tests
-dotnet test tests/SauceDemo/SauceDemo.Specflow
+dotnet test SauceDemo/tests/SauceDemo.Tests
+dotnet test SauceDemo/tests/SauceDemo.Specflow
 ```
 
 ## Switching Between Playwright and Selenium
@@ -103,24 +103,9 @@ public class BaseTest
 The framework automatically initializes the appropriate driver based on the `CurrentDriverType` value in the `InitializeDriver` method:
 
 ```csharp:SauceDemo/tests/SauceDemo.Tests/BaseTest.cs
-private async Task InitializeDriver()
+protected async Task InitializeDriver()
 {
-    switch (CurrentDriverType)
-    {
-        case DriverType.Selenium:
-            IWebDriver webdriver = new ChromeDriver();
-            webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            webdriver.Manage().Window.Maximize();
-            driver = new SeleniumWebDriver(webdriver);
-            break;
-
-        case DriverType.Playwright:
-            (_playwright, _browser, _page, _context, driver) = await PlaywrightDriverFactory.CreateDriverAsync();
-            break;
-
-        default:
-            throw new ArgumentException("Invalid driver type specified");
-    }
+    (driver, _playwright, _browser, _page, _context) = await WebDriverFactory.CreateDriverAsync(CurrentDriverType);
 }
 ```
 

@@ -1,6 +1,7 @@
 using SauceDemo.Infrastructure.Services;
 using SauceDemo.UseCases;
 using SauceDemo.Infrastructure.Drivers;
+using SauceDemo.Infrastructure.Drivers.Factory;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Microsoft.Playwright;
@@ -9,43 +10,20 @@ using TechTalk.SpecFlow;
 
 namespace SauceDemo.Tests;
 
-public class PlaywrightReportAttribute : Attribute
-{
-    [OneTimeSetUp]
-    public static void GeneratePlaywrightReport()
-    {
-        Program.Main(new[] { "show-report", "playwright-report" });
-
-        Process.Start(new ProcessStartInfo("playwright-report/index.html") { UseShellExecute = true });
-    }
-}
 
 [Binding]
 [TestFixture]
 public class BaseTest
 {
-    [OneTimeSetUp]
-    public static void GeneratePlaywrightReport()
-    {
-        PlaywrightReportAttribute.GeneratePlaywrightReport();
-    }
 
-    protected IWebDriverStrategy? driver;
+    protected IWebDriverAdapter? driver;
     protected IAuthenticationService? LoginService;
     protected IShopService? ShopService;
     protected ICheckoutService? CheckoutService;
 
-    protected AuthenticationUseCases? AuthenticationUseCases;    
-
-    // Add an enum to select the driver type
-    protected enum DriverType
-    {
-        Selenium,
-        Playwright
-    }
-
-    // Set the desired driver type here
-    protected DriverType CurrentDriverType = DriverType.Playwright;
+    protected AuthenticationUseCases? AuthenticationUseCases;
+    
+    protected DriverType CurrentDriverType = DriverType.Selenium; // Set the desired driver type here
 
     private IPlaywright? _playwright;
     private IBrowser? _browser;
@@ -59,34 +37,14 @@ public class BaseTest
         string projectDirectory = TestContext.CurrentContext.TestDirectory;
         Directory.SetCurrentDirectory(projectDirectory);
 
-        // Driver = await InitializeDriverStrategy();
         await InitializeDriver();
     }   
 
-    // private async Task<IWebDriverStrategy> InitializeDriverStrategy()
-    private async Task InitializeDriver()
+    protected async Task InitializeDriver()
     {
-        switch (CurrentDriverType)
-        {
-            case DriverType.Selenium:
-                IWebDriver webdriver = new ChromeDriver();
-                webdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                webdriver.Manage().Window.Maximize();
-                driver = new SeleniumWebDriver(webdriver);
-                break;
-
-            case DriverType.Playwright:
-                // var playwright = await Playwright.CreateAsync();
-                // var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
-                // var page = await browser.NewPageAsync();
-                // return new PlaywrightWebDriverStrategy(page);
-                (_playwright, _browser, _page, _context, driver) = await PlaywrightDriverFactory.CreateDriverAsync();
-                break;
-
-            default:
-                throw new ArgumentException("Invalid driver type specified");
-        }
+        (driver, _playwright, _browser, _page, _context) = await WebDriverFactory.CreateDriverAsync(CurrentDriverType);
     }
+    
 
     [TearDown]
     [AfterScenario]

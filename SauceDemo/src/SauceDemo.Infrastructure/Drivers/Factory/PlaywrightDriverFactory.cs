@@ -1,21 +1,21 @@
 using Microsoft.Playwright;
 using System.Threading.Tasks;
+using SauceDemo.Infrastructure.Drivers;
 
-namespace SauceDemo.Infrastructure.Drivers;
+namespace SauceDemo.Infrastructure.Drivers.Factory;
 
 public class PlaywrightDriverFactory
 {
-    public static async Task<(IPlaywright playwright, IBrowser browser, IPage page, IBrowserContext context, IWebDriverStrategy strategy)> CreateDriverAsync()
+    public static async Task<(IWebDriverAdapter adapter, IPlaywright playwright, IBrowser browser, IPage page, IBrowserContext context)> CreateDriverAsync()
     {
         var playwright = await Playwright.CreateAsync();
         var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = false,
-            Args = new[] { "--start-maximized" }
         });
         var context = await browser.NewContextAsync(new BrowserNewContextOptions
         {
-            ViewportSize = null
+            ViewportSize = ViewportSize.NoViewport
         });
         await context.Tracing.StartAsync(new()
         {
@@ -25,7 +25,8 @@ public class PlaywrightDriverFactory
         });
 
         var page = await context.NewPageAsync();
-        var strategy = new PlaywrightWebDriver(page);
-        return (playwright, browser, page, context, (IWebDriverStrategy)strategy);
+        await page.SetViewportSizeAsync(0, 0); // This maximizes the viewport
+        var adapter = new PlaywrightAdapter(page);
+        return (adapter, playwright, browser, page, context);
     }
 }

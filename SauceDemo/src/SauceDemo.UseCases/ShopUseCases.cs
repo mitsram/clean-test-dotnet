@@ -40,5 +40,10 @@ public class ShopUseCases
     {
         return _shopService.AreProductsSortedCorrectly(sortOption);
     }
+
+    public bool IsOnProductPage()
+    {
+        return _shopService.IsOnProductPage();
+    }
 }
 

@@ -6,18 +6,18 @@ namespace SauceDemo.Infrastructure.Services;
 
 public class ShoppingService : IAuthenticationService, IShopService, ICheckoutService, IDisposable
 {
-    private readonly IWebDriverStrategy driver;
+    private readonly IWebDriverAdapter driver;
     private readonly AuthenticationService _loginService;
     private readonly ShopService _shopService;
     private readonly CheckoutService _checkoutService;
     private bool _disposed = false;
 
-    public ShoppingService(IWebDriverStrategy driverStrategy)
+    public ShoppingService(IWebDriverAdapter driverAdapter)
     {
-        driver = driverStrategy ?? throw new ArgumentNullException(nameof(driverStrategy));
-        _loginService = new AuthenticationService(driverStrategy);
-        _shopService = new ShopService(driverStrategy);
-        _checkoutService = new CheckoutService(driverStrategy);
+        driver = driverAdapter ?? throw new ArgumentNullException(nameof(driverAdapter));
+        _loginService = new AuthenticationService(driverAdapter);
+        _shopService = new ShopService(driverAdapter);
+        _checkoutService = new CheckoutService(driverAdapter);
     }
 
     // ILoginService methods
@@ -33,6 +33,7 @@ public class ShoppingService : IAuthenticationService, IShopService, ICheckoutSe
     public void RemoveProductFromCart(string productName) => _shopService.RemoveProductFromCart(productName);
     public void SortProducts(string sortOption) => _shopService.SortProducts(sortOption);
     public bool AreProductsSortedCorrectly(string sortOption) => _shopService.AreProductsSortedCorrectly(sortOption);
+    public bool IsOnProductPage() => _shopService.IsOnProductPage();
 
     // ICheckoutService methods
     public void NavigateToCart() => _checkoutService.NavigateToCart();

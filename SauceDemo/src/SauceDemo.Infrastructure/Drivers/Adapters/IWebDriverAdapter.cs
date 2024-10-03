@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SauceDemo.Infrastructure.Drivers;
 
-public interface IWebDriverStrategy : IDisposable
+public interface IWebDriverAdapter : IDisposable
 {
     void NavigateToUrl(string url);
     IWebElement FindElementById(string id);

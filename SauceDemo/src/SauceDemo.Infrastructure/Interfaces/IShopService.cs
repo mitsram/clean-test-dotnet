@@ -10,5 +10,6 @@ public interface IShopService : IDisposable
     void RemoveProductFromCart(string productName);
     void SortProducts(string sortOption);
     bool AreProductsSortedCorrectly(string sortOption);
+    bool IsOnProductPage();
 }
 

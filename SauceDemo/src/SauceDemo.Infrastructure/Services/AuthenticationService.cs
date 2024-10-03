@@ -5,12 +5,12 @@ namespace SauceDemo.Infrastructure.Services;
 
 public class AuthenticationService : IAuthenticationService, IDisposable
 {
-    private readonly IWebDriverStrategy driver;
+    private readonly IWebDriverAdapter driver;
     private bool _disposed = false;
 
-    public AuthenticationService(IWebDriverStrategy driverStrategy)
+    public AuthenticationService(IWebDriverAdapter driverAdapter)
     {
-        driver = driverStrategy;
+        driver = driverAdapter;
     }
 
     public void NavigateToLoginPage()

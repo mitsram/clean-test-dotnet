@@ -6,12 +6,12 @@ namespace SauceDemo.Infrastructure.Services;
 
 public class CheckoutService : ICheckoutService, IDisposable
 {
-    private readonly IWebDriverStrategy driver;
+    private readonly IWebDriverAdapter driver;
     private bool _disposed = false;
 
-    public CheckoutService(IWebDriverStrategy driverStrategy)
+    public CheckoutService(IWebDriverAdapter driverAdapter)
     {
-        driver = driverStrategy ?? throw new ArgumentNullException(nameof(driverStrategy));
+        driver = driverAdapter ?? throw new ArgumentNullException(nameof(driverAdapter));
     }
 
     public void NavigateToCart()

@@ -1,11 +1,10 @@
 using TechTalk.SpecFlow;
-using SauceDemo.UseCases;
-using SauceDemo.Infrastructure.Services;
 using NUnit.Framework;
-using SauceDemo.Tests;
+using SauceDemo.UseCases;
 using SauceDemo.Domain.Entities;
+using SauceDemo.Infrastructure.Services;
 
-namespace SauceDemo.Specflow.StepDefinitions
+namespace SauceDemo.Tests.StepDefinitions
 {
     [Binding]
     public class ShopSteps : BaseTest
@@ -28,41 +27,52 @@ namespace SauceDemo.Specflow.StepDefinitions
             authentication.AttemptLogin(new User { Username = "standard_user", Password = "secret_sauce" });
         }
 
-        [When(@"I add ""(.*)"" to my cart")]
-        [Given(@"I have added ""(.*)"" to my cart")]
-        public void WhenIAddToMyCart(string productName)
+        [Given(@"I am on the products page")]
+        public void GivenIAmOnTheProductsPage()
+        {
+            Assert.IsTrue(shop.IsOnProductPage());
+        }
+
+        [When(@"I add the ""(.*)"" to the cart")]
+        public void WhenIAddTheProductToTheCart(string productName)
         {
             shop.AddProductToCart(productName);
         }
 
-        [When(@"I remove ""(.*)"" from my cart")]
-        public void WhenIRemoveFromMyCart(string productName)
-        {
-            shop.RemoveProductFromCart(productName);
-        }
-
-        [When(@"I sort products by ""(.*)""")]
-        public void WhenISortProductsBy(string sortOption)
-        {
-            shop.SortProducts(sortOption);
-        }
-
-        [Then(@"""(.*)"" should be in my cart")]
-        public void ThenShouldBeInMyCart(string productName)
+        [Then(@"the ""(.*)"" should be in the cart")]
+        public void ThenTheProductShouldBeInTheCart(string productName)
         {
             Assert.IsTrue(shop.IsProductInCart(productName));
-        }
-
-        [Then(@"""(.*)"" should not be in my cart")]
-        public void ThenShouldNotBeInMyCart(string productName)
-        {
-            Assert.IsFalse(shop.IsProductInCart(productName));
         }
 
         [Then(@"the cart item count should be (.*)")]
         public void ThenTheCartItemCountShouldBe(int expectedCount)
         {
             Assert.That(shop.GetCartItemCount(), Is.EqualTo(expectedCount));
+        }
+
+        [Given(@"I have added the ""(.*)"" to the cart")]
+        public void GivenIHaveAddedTheProductToTheCart(string productName)
+        {
+            shop.AddProductToCart(productName);
+        }
+
+        [When(@"I remove the ""(.*)"" from the cart")]
+        public void WhenIRemoveTheProductFromTheCart(string productName)
+        {
+            shop.RemoveProductFromCart(productName);
+        }
+
+        [Then(@"the ""(.*)"" should not be in the cart")]
+        public void ThenTheProductShouldNotBeInTheCart(string productName)
+        {
+            Assert.IsFalse(shop.IsProductInCart(productName));
+        }
+
+        [When(@"I sort the products by ""(.*)""")]
+        public void WhenISortTheProductsBy(string sortOption)
+        {
+            shop.SortProducts(sortOption);
         }
 
         [Then(@"the products should be sorted correctly by ""(.*)""")]

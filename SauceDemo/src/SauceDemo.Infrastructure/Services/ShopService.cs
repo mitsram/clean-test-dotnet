@@ -9,12 +9,12 @@ namespace SauceDemo.Infrastructure.Services;
 
 public class ShopService : IShopService, IDisposable
 {
-    private readonly IWebDriverStrategy driver;
+    private readonly IWebDriverAdapter driver;
     private bool _disposed;
 
-    public ShopService(IWebDriverStrategy driverStrategy)
+    public ShopService(IWebDriverAdapter driverAdapter)
     {
-        driver = driverStrategy;
+        driver = driverAdapter;
     }
 
     public void AddProductToCart(string productName)
@@ -65,6 +65,28 @@ public class ShopService : IShopService, IDisposable
         }
 
         return false; // For other sort options, you'd need to implement the logic
+    }
+
+    public bool IsOnProductPage()
+    {
+        try
+        {
+            // Check for the presence of elements that are unique to the products page
+            var inventoryContainer = driver.FindElementByClassName("inventory_container");
+            var productSortContainer = driver.FindElementByClassName("product_sort_container");
+            
+            // Check if the URL ends with "/inventory.html"
+            var currentUrl = driver.GetCurrentUrl();
+            var isCorrectUrl = currentUrl.EndsWith("/inventory.html");
+
+            // Return true if both elements are found and the URL is correct
+            return inventoryContainer != null && productSortContainer != null && isCorrectUrl;
+        }
+        catch
+        {
+            // If any exception occurs (e.g., element not found), return false
+            return false;
+        }
     }
 
     public void Dispose()

@@ -4,11 +4,11 @@ using StrategyElement = SauceDemo.Infrastructure.Drivers.IWebElement;
 
 namespace SauceDemo.Infrastructure.Drivers;
 
-public class SeleniumWebDriver : IWebDriverStrategy
+public class SeleniumAdapter : IWebDriverAdapter
 {
     private readonly IWebDriver _driver;
 
-    public SeleniumWebDriver(IWebDriver driver)
+    public SeleniumAdapter(IWebDriver driver)
     {
         _driver = driver;
     }
