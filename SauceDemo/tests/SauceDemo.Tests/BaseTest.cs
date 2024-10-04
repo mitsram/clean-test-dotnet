@@ -20,15 +20,18 @@ public class BaseTest
     protected IAuthenticationService? LoginService;
     protected IShopService? ShopService;
     protected ICheckoutService? CheckoutService;
-
-    protected AuthenticationUseCases? AuthenticationUseCases;
-    
-    protected DriverType CurrentDriverType = DriverType.Selenium; // Set the desired driver type here
+    protected AuthenticationUseCases? AuthenticationUseCases;   
 
     private IPlaywright? _playwright;
     private IBrowser? _browser;
     private IPage? _page;
     private IBrowserContext? _context;
+
+
+    /*
+     * Set the desired driver type here
+     */
+    protected DriverType CurrentDriverType = DriverType.Playwright;
 
     [SetUp]
     [BeforeScenario]

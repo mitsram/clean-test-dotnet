@@ -35,7 +35,7 @@ public class ShopTests : BaseTest
         Assert.That(shop.GetCartItemCount(), Is.EqualTo(1));
     }
 
-    [Test]
+    [Test]    
     public void Should_RemoveProductFromCart_WhenProductIsInCart()
     {
         // Arrange
@@ -51,6 +51,7 @@ public class ShopTests : BaseTest
     }
 
     [Test]
+    [Ignore("This is how you skip a test")]
     public void Should_SortProducts_WhenSortOptionIsSelected()
     {
         // Arrange

@@ -39,16 +39,15 @@ public class PurchaseTests : BaseTest
         // Act
         shop.AddProductToCart(product1.Name);
         shop.AddProductToCart(product2.Name);
-        
         checkout.GoToCart();
         checkout.ProceedToCheckout();
         checkout.FillCustomerInfo(customerInfo);
-        checkout.ContinueToOverview();
-        
+        checkout.ContinueToOverview();        
         bool purchaseResult = checkout.CompletePurchase();
+
+        // Assert
         Assert.Multiple(() =>
         {
-            // Assert
             Assert.That(purchaseResult, Is.True);
             Assert.That(checkout.IsOnOrderCompletePage(), Is.True);
             Assert.That(checkout.GetConfirmationMessage(), Is.EqualTo("Thank you for your order!"));

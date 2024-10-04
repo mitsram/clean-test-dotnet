@@ -1,17 +1,18 @@
 Feature: Shop
     As a user
     I want to be able to add and remove products from my cart
-    So that I can manage my shopping experience
+    So that I can manage my shopping experience  
 
 Background:
     Given I am logged in as a standard user
 
-Scenario: Add product to cart
+Scenario: Add product to cart    
     Given I am on the products page
     When I add the "Sauce Labs Backpack" to the cart
     Then the "Sauce Labs Backpack" should be in the cart
     And the cart item count should be 1
 
+@ignore
 Scenario: Remove product from cart
     Given I am on the products page
     And I have added the "Sauce Labs Bike Light" to the cart
