@@ -7,6 +7,7 @@ public class Pet
     public List<string> PhotoUrls { get; set; }
     public string Status { get; set; }
     public List<Category> Categories { get; set; }
+    public Category Category { get; set; }
     public List<Tag> Tags { get; set; }
 }
 
