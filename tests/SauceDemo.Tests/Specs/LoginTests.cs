@@ -17,9 +17,7 @@ public class LoginTests : BaseTest
     }
 
     [Test]
-    [TestCase("standard_user", "secret_sauce", true)]
-    [TestCase("locked_out_user", "secret_sauce", false)]
-    [TestCase("invalid_user", "invalid_password", false)]
+    [TestCase("standard_user", "secret_sauce", false)]
     public void Should_LoginSuccessfully_WhenCredentialsAreValid(string username, string password, bool expectedResult)
     {
         // Arrange
@@ -30,14 +28,31 @@ public class LoginTests : BaseTest
         bool loginResult = authentication.AttemptLogin(user);
 
         // Assert
-        Assert.That(loginResult, Is.EqualTo(expectedResult));
-        if (expectedResult)
+        Assert.Multiple(() =>
         {
-            Assert.IsTrue(authentication.IsOnInventoryPage());
-        }
-        else
+            Assert.That(loginResult, Is.True, "Login attempt for standard_user failed unexpectedly.");
+            Assert.That(authentication.IsOnInventoryPage(), Is.True, "User was not redirected to the inventory page after successful login.");            
+        });
+    }
+
+    [Test]
+    [TestCase("locked_out_user", "secret_sauce")]
+    [TestCase("invalid_user", "invalid_password")]
+    public void Should_HaveLoginError_WhenCredentialsAreInvalid(string username, string password)
+    {
+        // Arrange
+        var user = new User { Username = username, Password = password };
+
+        // Act 
+        authentication.GoToLoginPage();
+        bool loginResult = authentication.AttemptLogin(user);
+
+        // Assert
+        Assert.Multiple(() =>
         {
-            Assert.IsTrue(authentication.HasLoginError());
-        }        
+            Assert.That(loginResult, Is.False, $"Login attempt for '{username}' succeeded unexpectedly.");            
+            Assert.That(authentication.HasLoginError(), Is.True, "Login error message is not displayed for invalid credentials.");            
+            Assert.That(authentication.IsOnInventoryPage(), Is.False, "User was incorrectly redirected to the inventory page after failed login.");
+        });
     }
 }
