@@ -1,4 +1,3 @@
-using Framework.WebDriver;
 using SauceDemo.Tests.Base;
 using SauceDemo.Application.UseCases;
 using SauceDemo.Application.Services;
