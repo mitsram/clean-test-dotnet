@@ -1,5 +1,6 @@
 using Framework.Interfaces.Adapters;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SeleniumElement = OpenQA.Selenium.IWebElement;
 
 
@@ -43,6 +44,35 @@ public class SeleniumWebDriverAdapter : IWebDriverAdapter
     public string GetCurrentUrl() => _driver.Url;
 
     public void Dispose() => _driver.Quit();
+
+    public IWebElementAdapter WaitAndFindElementByXPath(string xpath, int timeoutInSeconds = 15)
+    {
+        const int maxRetries = 3;
+        const int retryDelayMs = 1000;
+
+        for (int attempt = 0; attempt < maxRetries; attempt++)
+        {
+            try
+            {
+                var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(timeoutInSeconds));
+                var element = wait.Until(driver => driver.FindElement(By.XPath(xpath)));
+                return new SeleniumWebElementAdapter(element);
+            }
+            catch (WebDriverException)
+            {
+                if (attempt == maxRetries - 1)
+                    throw;
+
+                System.Threading.Thread.Sleep(retryDelayMs);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to find element by XPath: {xpath}", ex);
+            }
+        }
+
+        throw new Exception($"Failed to find element by XPath after {maxRetries} attempts: {xpath}");
+    }
 }
 
 public class SeleniumWebElementAdapter : IWebElementAdapter
@@ -63,4 +93,10 @@ public class SeleniumWebElementAdapter : IWebElementAdapter
     }
 
     public string Text => _element.Text;
+
+    public void SelectOptionByText(string optionText)
+    {
+        var selectElement = new SelectElement(_element);
+        selectElement.SelectByText(optionText);
+    }
 }

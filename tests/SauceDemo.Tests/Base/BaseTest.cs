@@ -18,9 +18,16 @@ public class BaseTest
 
         driver = WebDriverFactory.Create(webDriverType, browserType);
     }
+
+
+    [TearDown]
+    public void TearDown()
+    {
+        Thread.Sleep(1000);
+    }
     
     [OneTimeTearDown]
-    public void TearDown()
+    public void OneTimeTearDown()
     {
         if (driver != null)
         {

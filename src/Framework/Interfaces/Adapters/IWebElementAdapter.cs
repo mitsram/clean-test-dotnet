@@ -6,4 +6,5 @@ public interface IWebElementAdapter
     void SendKeys(string text);
     string GetText();
     string Text { get; }
+    void SelectOptionByText(string optionText);
 }

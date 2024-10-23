@@ -11,4 +11,6 @@ public interface IWebDriverAdapter
     IReadOnlyCollection<IWebElementAdapter> FindElementsByXPath(string xpath);
     IReadOnlyCollection<IWebElementAdapter> FindElementsByClassName(string className);
     void Dispose();
+
+    IWebElementAdapter WaitAndFindElementByXPath(string xpath, int timeoutInSeconds = 15);
 }
