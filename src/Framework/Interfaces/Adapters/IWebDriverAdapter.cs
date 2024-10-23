@@ -1,6 +1,6 @@
 namespace Framework.Interfaces.Adapters;
 
-public interface IWebDriverAdapter : IAsyncDisposable
+public interface IWebDriverAdapter
 {
     void NavigateToUrl(string url);
     string GetCurrentUrl();
@@ -10,5 +10,5 @@ public interface IWebDriverAdapter : IAsyncDisposable
     IReadOnlyCollection<IWebElementAdapter> FindElementsByCssSelector(string cssSelector);
     IReadOnlyCollection<IWebElementAdapter> FindElementsByXPath(string xpath);
     IReadOnlyCollection<IWebElementAdapter> FindElementsByClassName(string className);
-    
+    void Dispose();
 }

@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace SauceDemo.Tests.Base;
 
-public class BaseTest : IAsyncDisposable
+public class BaseTest
 {
     protected IWebDriverAdapter driver;    
 
@@ -19,17 +19,12 @@ public class BaseTest : IAsyncDisposable
         driver = WebDriverFactory.Create(webDriverType, browserType);
     }
     
-    [TearDown]
-        public virtual async Task TearDown()
+    [OneTimeTearDown]
+    public void TearDown()
+    {
+        if (driver != null)
         {
-            await DisposeAsync();
+            driver.Dispose();
         }
-
-        public async ValueTask DisposeAsync()
-        {
-            if (driver != null)
-            {
-                await driver.DisposeAsync();
-            }
-        }
+    }
 }

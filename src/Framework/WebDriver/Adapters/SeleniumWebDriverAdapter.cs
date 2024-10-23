@@ -43,11 +43,6 @@ public class SeleniumWebDriverAdapter : IWebDriverAdapter
     public string GetCurrentUrl() => _driver.Url;
 
     public void Dispose() => _driver.Quit();
-
-    public async ValueTask DisposeAsync()
-    {
-        await Task.Run(() => _driver.Quit());
-    }
 }
 
 public class SeleniumWebElementAdapter : IWebElementAdapter

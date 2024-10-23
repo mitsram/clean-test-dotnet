@@ -42,11 +42,6 @@ public class PlaywrightWebDriverAdapter : IWebDriverAdapter
     public string GetCurrentUrl() => _page.Url;
 
     public void Dispose() => _page.CloseAsync().GetAwaiter().GetResult();
-
-    public async ValueTask DisposeAsync()
-    {
-        await _page.CloseAsync();
-    }
 }
 
 public class PlaywrightWebElementAdapter : IWebElementAdapter
