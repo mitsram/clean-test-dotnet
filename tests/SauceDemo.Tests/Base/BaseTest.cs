@@ -1,8 +1,8 @@
 using Framework.WebDriver;
-using Framework.Interfaces.Adapters;
 using NUnit.Framework;
 using SauceDemo.Tests.Config;
 using Microsoft.Extensions.Configuration;
+using Framework.WebDriver.Interfaces;
 
 namespace SauceDemo.Tests.Base;
 

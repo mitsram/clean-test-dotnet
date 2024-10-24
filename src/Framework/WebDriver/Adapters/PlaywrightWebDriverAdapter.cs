@@ -1,6 +1,5 @@
-using Framework.Interfaces.Adapters;
+using Framework.WebDriver.Interfaces;
 using Microsoft.Playwright;
-using System.Threading; 
 
 
 namespace Framework.WebDriver.Adapters;

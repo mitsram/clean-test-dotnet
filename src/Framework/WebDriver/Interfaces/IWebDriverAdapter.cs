@@ -1,4 +1,4 @@
-namespace Framework.Interfaces.Adapters;
+namespace Framework.WebDriver.Interfaces;
 
 public interface IWebDriverAdapter
 {

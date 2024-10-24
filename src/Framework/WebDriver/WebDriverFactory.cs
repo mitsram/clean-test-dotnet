@@ -3,8 +3,8 @@ using Microsoft.Playwright;
 using BrowserType = Framework.WebDriver.BrowserType;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
-using Framework.Interfaces.Adapters;
 using Framework.WebDriver.Adapters;
+using Framework.WebDriver.Interfaces;
 
 namespace Framework.WebDriver;
 

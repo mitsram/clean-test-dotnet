@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Framework.ApiDriver.Interfaces;
-using Framework.Interfaces.Adapters;
 
 namespace Framework.ApiDriver.Adapters;
 

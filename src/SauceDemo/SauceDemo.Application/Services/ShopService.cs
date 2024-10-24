@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using Framework.Interfaces.Adapters;
+using Framework.WebDriver.Interfaces;
 using SauceDemo.Application.Interfaces;
 
 namespace SauceDemo.Application.Services;

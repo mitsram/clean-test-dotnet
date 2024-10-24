@@ -1,4 +1,4 @@
-using Framework.Interfaces.Adapters;
+using Framework.WebDriver.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumElement = OpenQA.Selenium.IWebElement;

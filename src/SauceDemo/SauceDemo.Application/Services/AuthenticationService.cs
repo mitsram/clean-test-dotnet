@@ -1,4 +1,4 @@
-using Framework.Interfaces.Adapters;
+using Framework.WebDriver.Interfaces;
 using SauceDemo.Application.Interfaces;
 using System;
 
